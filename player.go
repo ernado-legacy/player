@@ -83,7 +83,7 @@ func (b *Buffer) SetCount(count int64) {
 }
 
 // SegmentSize returns size of segment.
-func (b Buffer) SegmentSize() int64 {
+func (b *Buffer) SegmentSize() int64 {
 	return b.segment
 }
 
