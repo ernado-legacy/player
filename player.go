@@ -33,14 +33,14 @@ const (
 
 // Buffer represents in-memory buffer for stream.
 type Buffer struct {
-	segment  int64
-	maxCount int64
-	count    int64
-	lastID   int64
-	firstID  int64
-	overflow bool
-	l        sync.Mutex
-	data     []byte
+	segment       int64
+	maxCount      int64
+	count         int64
+	lastID        int64
+	firstID       int64
+	allowOverflow bool
+	l             sync.Mutex
+	data          []byte
 }
 
 // Config is configuration for Buffer.
@@ -66,7 +66,7 @@ func New(cfg Config) *Buffer {
 		segment:  cfg.Segment,
 		maxCount: cfg.Count,
 		firstID:  cfg.Start,
-		overflow: cfg.AllowOverflow,
+		allowOverflow: cfg.AllowOverflow,
 	}
 }
 
@@ -111,7 +111,7 @@ func (b *Buffer) getSegment(id int64) []byte {
 func (b *Buffer) Write(buf []byte) (int, error) {
 	if int64(len(buf)) > b.segment*b.maxCount {
 		// buffer length is bigger than maximum size.
-		if !b.overflow {
+		if !b.allowOverflow {
 			return 0, errors.Wrap(ErrTooLargeWrite, "failed to write")
 		}
 	}
