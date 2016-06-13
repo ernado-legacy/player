@@ -2,10 +2,11 @@ package player
 
 import (
 	"bytes"
-	"github.com/pkg/errors"
 	"io"
 	"math/rand"
 	"testing"
+
+	"github.com/pkg/errors"
 )
 
 var (
